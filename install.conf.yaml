@@ -1,0 +1,24 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- create:
+    - ~/.ssh
+    - ~/.config
+    - ~/.cargo
+
+- clean: ['~']
+
+- link:
+    ~/.dotfiles: ""
+    ~/.ssh/config: ssh/config
+    ~/.gitignore: git/.gitignore
+    ~/.gitconfig: git/.gitconfig
+    ~/.gitmessage: git/.gitmessage
+    ~/.config/nvim: .config/nvim
+    ~/.cargo/config.toml: .cargo/config.toml
+
+- shell:
+  - [ git submodule update --init --recursive, Installing submodules ]
+  - [ cp -n ./git/config.template ~/.gitconfig.local ]
