@@ -15,7 +15,6 @@
     ~/.gitconfig: git/.gitconfig
     ~/.gitmessage: git/.gitmessage
     ~/.config/helix: .config/helix
-    ~/.config/nvim: .config/nvim
     ~/.cargo/config.toml: .cargo/config.toml
     ~/.bashrc: .bashrc
 
