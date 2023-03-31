@@ -1,5 +1,26 @@
 #!/usr/bin/env bash
 
+exists() {
+    which $1 &>/dev/null;
+}
+
+# ---------------------------------------------------------
+
+echo "configure dotfiles..."
+
+export DOTFILES="$HOME/.dotfiles"
+
+if [ -d "$DOTFILES" ]; then
+    echo "Dotfiles have already been cloned into the home dir"
+else
+    echo "Cloning .dotfiles repository into $DOTFILES"
+    git clone https://github.com/Skarmux/.dotfiles $DOTFILES
+fi
+
+echo "updating dotbot sub-repository to latest..."
+cd "$DOTFILES" || "Didn't cd into dotfiles"
+git submodule update --init --recursive
+
 set -e
 
 CONFIG="install.conf.yaml"
@@ -13,3 +34,107 @@ git -C "${DOTBOT_DIR}" submodule sync --quiet --recursive
 git submodule update --init --recursive "${DOTBOT_DIR}"
 
 "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
+
+# ---------------------------------------------------------
+
+cd "$HOME" || exit
+
+echo "---------------------------------------------------------"
+echo "install missing packages..."
+
+packages=(
+    git
+    gcc
+)
+
+for p in "${packages[@]}"; do
+    if ! exists $p; then
+        echo "installing $p..."
+        sudo apt install $p
+    fi
+done
+
+echo "[OK]"
+
+# ---------------------------------------------------------
+
+if ! exists rustc; then
+    echo "---------------------------------------------------------"
+    echo "install rust environment..."
+    curl https://sh.rustup.rs -sSf | sh
+    rustup default nightly
+    rustup update
+fi
+
+# ---------------------------------------------------------
+
+crates=(
+    starship
+    dust
+    zellij
+    mprocs
+    gitui
+    irust
+    bacon
+    porsmo
+    rg
+    sccache
+    bat
+    exa
+    coreutils
+    rtx
+)
+
+for p in "${crates[@]}"; do
+    if ! exists $p; then
+        echo "---------------------------------------------------------"
+        echo "installing $p..."
+        cargo install $p
+        echo "[OK]"
+    fi
+done
+
+# ---------------------------------------------------------
+
+# Install Starship
+#if ! exists starship; then
+#    curl -sS https://starship.rs/install.sh | sh
+#    echo eval "$(starship init bash)" >> ~/.bashrc
+#fi
+
+# ---------------------------------------------------------
+
+install_helix() {
+    echo "---------------------------------------------------------"
+    echo "installing helix editor..."
+    DISTRO="`lsb_release -i | cut -f 2-`"
+    case $DISTRO in
+        "Ubuntu")
+            sudo add-apt-repository ppa:maveonair/helix-editor
+            sudo apt update
+            sudo apt install helix
+            ;;
+        "Fedora")
+            sudo dnf copr enable varlad/helix
+            sudo dnf install helix
+            ;;
+        "Arch")
+            sudo pacman -S helix
+            ;;
+        *)
+            git clone https://github.com/helix-editor/helix
+            cd helix
+            cargo install --locked --path helix-term
+            cd ..
+            ;;
+    esac
+    echo "[OK]"
+}
+
+if ! exists hx; then
+    install_helix || echo "[FAILED]"
+fi
+
+# ---------------------------------------------------------
+
+exit 0

@@ -1,0 +1,22 @@
+eval 
+            __main() {
+                local major="${BASH_VERSINFO[0]}"
+                local minor="${BASH_VERSINFO[1]}"
+
+                if ((major > 4)) || { ((major == 4)) && ((minor >= 1)); }; then
+                    source <(/usr/local/bin/starship init bash --print-full-init)
+                else
+                    source /dev/stdin <<<"$(/usr/local/bin/starship init bash --print-full-init)"
+                fi
+            }
+            __main
+            unset -f __main
+
+eval "$(starship init bash)"
+
+export PATH=$PATH:/root/.cargo/bin
+
+alias grep=ripgrep
+alias ls=exa
+alias ll="exa -al"
+alias cat=bat
