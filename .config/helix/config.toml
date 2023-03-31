@@ -1,0 +1,12 @@
+theme = "kanabox"
+
+[editor]
+line-number = "relative"
+mouse = false
+auto-completion = false
+
+[editor.file-picker]
+hidden = false
+
+[editor.indent-guides]
+render = true
