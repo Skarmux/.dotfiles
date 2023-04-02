@@ -1,9 +1,10 @@
-theme = "kanabox"
+theme = "kanabox_default"
 
 [editor]
 line-number = "relative"
 mouse = false
 auto-completion = false
+true-color = true
 
 [editor.file-picker]
 hidden = false

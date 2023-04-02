@@ -16,7 +16,7 @@ eval "$(starship init bash)"
 
 export PATH=$PATH:/root/.cargo/bin
 
-alias grep=ripgrep
+alias grep=rg
 alias ls=exa
 alias ll="exa -al"
 alias cat=bat
