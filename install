@@ -91,8 +91,8 @@ if ! exists rustc; then
     echo "─────────────────────────────────────────────────────────"
     echo "install rust environment..."
     curl https://sh.rustup.rs -sSf | sh
-    rustup default nightly
-    rustup update
+    $HOME/.cargo/bin/rustup default nightly
+    $HOME/.cargo/bin/rustup update
 fi
 
 crates=(
