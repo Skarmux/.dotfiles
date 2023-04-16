@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
 exists() {
-    which $1 &>/dev/null;
+    which $1 &> /dev/null;
 }
 
-# ---------------------------------------------------------
+cd "$HOME" || exit
+
+# ─────────────────────────────────────────────────────────
 
 echo "configure dotfiles..."
 
@@ -35,12 +37,13 @@ git submodule update --init --recursive "${DOTBOT_DIR}"
 
 "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
 
-# ---------------------------------------------------------
+# ─────────────────────────────────────────────────────────
 
-cd "$HOME" || exit
+DISTRO="`lsb_release -i | cut -f 2-`"
+echo "detected distribution: $DISTRO"
 
-echo "---------------------------------------------------------"
-echo "install missing packages..."
+echo "─────────────────────────────────────────────────────────"
+echo "install packages..."
 
 packages=(
     git
@@ -50,23 +53,47 @@ packages=(
 for p in "${packages[@]}"; do
     if ! exists $p; then
         echo "installing $p..."
-        sudo apt install $p
+        case $DISTRO in
+            'Debian')
+                sudo apt install $p
+                ;;
+            'Fedora')
+                sudo dnf install $p
+                ;;
+            'Arch')
+                sudo pacman -S $p
+                ;;
+        esac
+    else
+        echo "$p already installed" 
     fi
 done
 
-echo "[OK]"
+if ! exists "hx"; then
+    case $DISTRO in
+        "Ubuntu")
+            sudo add-apt-repository ppa:maveonair/helix-editor
+            sudo apt update
+            sudo apt install helix
+            ;;
+        "Fedora")
+            sudo dnf copr enable varlad/helix
+            ;;
+        'Arch')
+            sudo pacman -S helix
+            ;;
+    esac
+fi
 
-# ---------------------------------------------------------
+# ─────────────────────────────────────────────────────────
 
 if ! exists rustc; then
-    echo "---------------------------------------------------------"
+    echo "─────────────────────────────────────────────────────────"
     echo "install rust environment..."
     curl https://sh.rustup.rs -sSf | sh
     rustup default nightly
     rustup update
 fi
-
-# ---------------------------------------------------------
 
 crates=(
     starship
@@ -87,54 +114,17 @@ crates=(
 
 for p in "${crates[@]}"; do
     if ! exists $p; then
-        echo "---------------------------------------------------------"
+        echo "─────────────────────────────────────────────────────────"
         echo "installing $p..."
         cargo install $p
-        echo "[OK]"
+    else
+        echo "$p already installed"  
     fi
 done
 
-# ---------------------------------------------------------
+# ─────────────────────────────────────────────────────────
 
-# Install Starship
-#if ! exists starship; then
-#    curl -sS https://starship.rs/install.sh | sh
-#    echo eval "$(starship init bash)" >> ~/.bashrc
-#fi
-
-# ---------------------------------------------------------
-
-install_helix() {
-    echo "---------------------------------------------------------"
-    echo "installing helix editor..."
-    DISTRO="`lsb_release -i | cut -f 2-`"
-    case $DISTRO in
-        "Ubuntu")
-            sudo add-apt-repository ppa:maveonair/helix-editor
-            sudo apt update
-            sudo apt install helix
-            ;;
-        "Fedora")
-            sudo dnf copr enable varlad/helix
-            sudo dnf install helix
-            ;;
-        "Arch")
-            sudo pacman -S helix
-            ;;
-        *)
-            git clone https://github.com/helix-editor/helix
-            cd helix
-            cargo install --locked --path helix-term
-            cd ..
-            ;;
-    esac
-    echo "[OK]"
-}
-
-if ! exists hx; then
-    install_helix || echo "[FAILED]"
-fi
-
-# ---------------------------------------------------------
+echo "─────────────────────────────────────────────────────────"
+echo "done."
 
 exit 0
