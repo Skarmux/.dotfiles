@@ -16,8 +16,9 @@
     ~/.gitmessage: git/.gitmessage
     ~/.config/helix: .config/helix
     ~/.cargo/config.toml: .cargo/config.toml
-    ~/.bashrc: .bashrc
+    ~/.bashrc:
+        path: .bashrc
+        force: true
 
 - shell:
   - [ git submodule update --init --recursive, Installing submodules ]
-  - [ cp -n ./git/config.template ~/.gitconfig.local ]
