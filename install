@@ -84,6 +84,7 @@ for p in "${packages[@]}"; do
 done
 
 if ! exists "hx"; then
+    echo "installing helix..."
     case $DISTRO in
         "Ubuntu")
             sudo add-apt-repository ppa:maveonair/helix-editor
@@ -97,14 +98,18 @@ if ! exists "hx"; then
             sudo pacman -S helix &> /dev/null || echo "FAILED"
             ;;
     esac
+else
+    echo "helix already installed"
 fi
 
 # ─────────────────────────────────────────────────────────
 
 if ! exists "starship"; then
     echo "─────────────────────────────────────────────────────────"
-    echo "install Starship"
+    echo "installing starship..."
     curl -sS https://starship.rs/install.sh | sh
+else
+    echo "starship already installed"
 fi
 
 # ─────────────────────────────────────────────────────────
@@ -115,6 +120,8 @@ if ! exists rustc; then
     curl https://sh.rustup.rs -sSf | sh
     $HOME/.cargo/bin/rustup default nightly
     $HOME/.cargo/bin/rustup update
+else
+    echo "rust environment already installed"
 fi
 
 crates=(
