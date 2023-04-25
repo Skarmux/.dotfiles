@@ -120,7 +120,6 @@ fi
 crates=(
     du-dust
     zellij
-    mprocs
     gitui
     irust
     bacon
