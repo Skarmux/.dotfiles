@@ -89,13 +89,13 @@ if ! exists "hx"; then
         "Ubuntu")
             sudo add-apt-repository ppa:maveonair/helix-editor
             sudo apt update
-            sudo apt install helix &> /dev/null || echo "FAILED"
+            sudo apt install helix || echo "FAILED"
             ;;
         "Fedora")
-            sudo dnf copr enable varlad/helix &> /dev/null || echo "FAILED"
+            sudo dnf copr enable varlad/helix || echo "FAILED"
             ;;
         "Arch" | "Manjaro" | "SteamOS")
-            sudo pacman -S helix &> /dev/null || echo "FAILED"
+            sudo pacman -S helix || echo "FAILED"
             ;;
     esac
 else
