@@ -49,10 +49,10 @@ case $DISTRO in
         echo "─────────────────────────────────────────────────────────"
         echo "Make SteamOS readable"
         sudo steamos-readonly disable
+        sudo rm -rf /etc/pacman.d/gnupg
         sudo pacman-key --init
-        sudo pacman-key --populate archlinux holo
-        sudo pacman -Scc
-        sudo pacman -Syu
+        sudo pacman-key --populate
+        sudo pacman -Sy base-devel
         ;;
 esac
 
