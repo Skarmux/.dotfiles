@@ -54,13 +54,13 @@ for p in "${packages[@]}"; do
     if ! exists $p; then
         echo "installing $p..."
         case $DISTRO in
-            'Debian')
+            "Debian")
                 sudo apt install $p
                 ;;
-            'Fedora')
+            "Fedora")
                 sudo dnf install $p
                 ;;
-            'Arch')
+            "Arch" | "Manjaro" | "SteamOS")
                 sudo pacman -S $p
                 ;;
         esac
@@ -79,7 +79,7 @@ if ! exists "hx"; then
         "Fedora")
             sudo dnf copr enable varlad/helix
             ;;
-        'Arch')
+        "Arch" | "Manjaro" | "SteamOS")
             sudo pacman -S helix
             ;;
     esac
