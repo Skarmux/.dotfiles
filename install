@@ -151,9 +151,6 @@ done
 
 # ─────────────────────────────────────────────────────────
 
-echo "[build]" >> ~/.cargo/config.toml
-echo "rustc-wrapper = \".cargo/bin/sccache\"" >> ~/.cargo/config.toml
-
 echo "─────────────────────────────────────────────────────────"
 echo "done."
 
