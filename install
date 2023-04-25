@@ -44,17 +44,18 @@ echo "detected distribution: $DISTRO"
 
 # ─────────────────────────────────────────────────────────
 
-
-if ["$DISTRO" = "SteamOS"]; then
-echo "─────────────────────────────────────────────────────────"
-echo "Make SteamOS readable"
-sudo steamos-readonly disable
-echo "keyserver hkps://keyserver.ubuntu.com" >> /etc/pacman.d/gnupg/gpg.conf
-sudo pacman-key --init
-sudo pacman-key --populate
-sudo pacman-key --refresh-keys
-yay -S base-devel
-fi
+case $DISTRO in
+    "SteamOS")
+        echo "─────────────────────────────────────────────────────────"
+        echo "Make SteamOS readable"
+        sudo steamos-readonly disable
+        echo "keyserver hkps://keyserver.ubuntu.com" >> /etc/pacman.d/gnupg/gpg.conf
+        sudo pacman-key --init
+        sudo pacman-key --populate
+        sudo pacman-key --refresh-keys
+        yay -S base-devel
+        ;;
+esac
 
 echo "─────────────────────────────────────────────────────────"
 echo "install packages..."
