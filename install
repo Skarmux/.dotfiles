@@ -137,7 +137,7 @@ for p in "${crates[@]}"; do
     if ! exists $p; then
         echo "─────────────────────────────────────────────────────────"
         echo "installing $p..."
-        cargo install $p
+        sudo cargo install $p
     else
         echo "$p already installed"  
     fi
