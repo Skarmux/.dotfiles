@@ -69,13 +69,13 @@ for p in "${packages[@]}"; do
         echo "installing $p..."
         case $DISTRO in
             "Debian")
-                sudo apt install $p
+                sudo apt install $p &> /dev/null || echo "FAILED"
                 ;;
             "Fedora")
-                sudo dnf install $p
+                sudo dnf install $p &> /dev/null || echo "FAILED"
                 ;;
             "Arch" | "Manjaro" | "SteamOS")
-                sudo pacman -S $p
+                sudo pacman -S $p &> /dev/null || echo "FAILED"
                 ;;
         esac
     else
@@ -88,13 +88,13 @@ if ! exists "hx"; then
         "Ubuntu")
             sudo add-apt-repository ppa:maveonair/helix-editor
             sudo apt update
-            sudo apt install helix
+            sudo apt install helix &> /dev/null || echo "FAILED"
             ;;
         "Fedora")
-            sudo dnf copr enable varlad/helix
+            sudo dnf copr enable varlad/helix &> /dev/null || echo "FAILED"
             ;;
         "Arch" | "Manjaro" | "SteamOS")
-            sudo pacman -S helix
+            sudo pacman -S helix &> /dev/null || echo "FAILED"
             ;;
     esac
 fi
@@ -120,7 +120,7 @@ fi
 crates=(
     du-dust
     zellij
-    #gitui
+    gitui
     irust
     bacon
     porsmo
@@ -136,7 +136,7 @@ for p in "${crates[@]}"; do
     if ! exists $p; then
         echo "─────────────────────────────────────────────────────────"
         echo "installing $p..."
-        cargo install $p
+        cargo install $p &> /dev/null || echo "FAILED"
     else
         echo "$p already installed"  
     fi
