@@ -51,6 +51,7 @@ case $DISTRO in
         sudo steamos-readonly disable
         sudo pacman-key --init
         sudo pacman-key --populate archlinux holo
+        sudo pacman -Scc
         sudo pacman -Syu
         ;;
 esac
