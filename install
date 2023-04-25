@@ -49,11 +49,9 @@ case $DISTRO in
         echo "─────────────────────────────────────────────────────────"
         echo "Make SteamOS readable"
         sudo steamos-readonly disable
-        sudo echo "keyserver hkps://keyserver.ubuntu.com" >> /etc/pacman.d/gnupg/gpg.conf
         sudo pacman-key --init
         sudo pacman-key --populate archlinux holo
-        sudo pacman-key --refresh-keys
-        yay -S base-devel
+        sudo pacman -Syu
         ;;
 esac
 
