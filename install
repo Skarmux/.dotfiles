@@ -118,7 +118,7 @@ if ! exists rustc; then
 fi
 
 crates=(
-    dust
+    du-dust
     zellij
     mprocs
     gitui
