@@ -109,6 +109,14 @@ if ! exists rustc; then
     $HOME/.cargo/bin/rustup update
 fi
 
+if ! exists "starship"; then
+    echo "─────────────────────────────────────────────────────────"
+    echo "install Starship"
+    curl -sS https://starship.rs/install.sh | sh
+fi
+
+
+
 crates=(
     starship
     dust
