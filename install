@@ -45,7 +45,7 @@ echo "detected distribution: $DISTRO"
 # ─────────────────────────────────────────────────────────
 
 
-if [$DISTRO = "SteamOS"]; then
+if ["$DISTRO" = "SteamOS"]; then
 echo "─────────────────────────────────────────────────────────"
 echo "Make SteamOS readable"
 sudo steamos-readonly disable
