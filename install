@@ -120,7 +120,7 @@ fi
 crates=(
     du-dust
     zellij
-    gitui
+    #gitui
     irust
     bacon
     porsmo
