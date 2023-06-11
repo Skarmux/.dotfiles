@@ -14,11 +14,7 @@
     ~/.gitignore: git/.gitignore
     ~/.gitconfig: git/.gitconfig
     ~/.gitmessage: git/.gitmessage
-    ~/.config/helix: .config/helix
     ~/.cargo/config.toml: .cargo/config.toml
-    ~/.bashrc:
-        path: .bashrc
-        force: true
 
 - shell:
   - [ git submodule update --init --recursive, Installing submodules ]
